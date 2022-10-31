@@ -1,17 +1,20 @@
 <template>
-  <div class="item" v-for="project in projects">
-    <div class="p_title">
-      <p>{{ project.title }}</p>
-    </div>
-    <div class="p_service">
-      <p v-for="microservice in project.microservices">{{ microservice.title }}</p>
-    </div>
-  </div>
+  <project-instance
+      v-for="project in projects"
+      :project="project"
+      :key="project.id"
+      @delete-project="$emit('delete-project', project)"
+      @show-details="$emit('show-details', project)"
+  />
 </template>
 
 <script>
+import ProjectInstance from "./ProjectInstance";
 export default {
   name: "ProjectList",
+  components: {
+    'project-instance': ProjectInstance
+  },
   props: {
     projects: {
       type: Array,
@@ -20,40 +23,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .item {
-    display: flex;
-    flex-direction: column;
-    padding: 3vmin;
-    border: 2px solid black;
-    font-family: Calibri, sans-serif;
-  }
-  .p_title {
-    font-size: 5vmin;
-  }
-  .p_service {
-    margin-left: 1vmin;
-    font-size: 3vmin;
-    overflow: auto;
-  }
-  @media screen and (max-width: 480px) {
-    .p_title {
-      font-size: 8vw;
-    }
-    .p_service {
-      font-size: 3.5vw;
-    }
-  }
-  @media screen and (max-width: 375px) {
-    .p_title {
-      font-size: 12vw;
-    }
-    .p_service {
-      font-size: 6vw;
-    }
-    .item {
-      padding: 6vw;
-    }
-  }
-</style>
